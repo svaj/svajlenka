@@ -1,0 +1,74 @@
+body {
+	font-family:  verdana, tahoma, arial;
+}
+
+.siteContainer {
+	width: 900px;
+	margin: 0pt auto;
+	height: 100%;
+	display: block;
+}
+
+.header h1 {
+	font-size: 20px;
+	margin-top:5px;
+	margin-bottom:0px;
+}
+
+.contact {
+	list-style-type: none;
+	margin-top:5px;
+	margin-bottom:5px;
+}
+
+.codeQuote {
+	font-style:italic;
+	display:block;
+	margin-top:5px;
+	margin-bottom:5px;
+}
+
+.siteContent {
+	margin-top:10px;
+}
+
+.section {
+	font-size:12px;
+	margin-bottom:10px;
+}
+.section p {
+	margin-left:50px;
+	margin-top:2px;
+	margin-bottom:5px;
+}
+
+.sectionHeader {
+	font-size: 16px;
+	display: block;
+}
+
+.subHeader {
+	font-size: 13px;
+	display: block;
+	margin-left:10px;
+}
+
+.timeframe {
+	font-size: 12px;
+	display: block;
+	margin-left:20px;
+}
+
+a:link { 
+	color: #333333;
+}
+a:visited { 
+         color: #666666;
+}
+a:hover { 
+	color: #CCCCCC;
+	text-decoration: underline;
+}
+a:active { 
+	color: #333333;
+}
