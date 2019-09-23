@@ -11,7 +11,7 @@
 ## ref: https://hub.docker.com/r/bitnami/nginx/tags/
 ##
 image:
-  registry: registry.gitlab.com
+  registry: ''
   repository: devhax/svajlenka
   tag: latest
   ## Specify a imagePullPolicy
