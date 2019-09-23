@@ -1,6 +1,6 @@
 FROM bitnami/nginx:1.16.1-debian-9-r22
 
-MKDIR /app
+RUN mkdir -p /app
 COPY www /app
 
 
