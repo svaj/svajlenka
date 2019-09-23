@@ -7,6 +7,5 @@ COPY www /app
 EXPOSE 8080 8443
 
 WORKDIR /app
-USER 1001
 ENTRYPOINT [ "/entrypoint.sh" ]
 CMD [ "/run.sh" ]
