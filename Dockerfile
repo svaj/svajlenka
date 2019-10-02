@@ -1,6 +1,6 @@
 FROM bitnami/nginx:1.16.1-debian-9-r22
 
-COPY www /app
+COPY src /app
 
 
 # https://hub.docker.com/r/bitnami/nginx/dockerfile
