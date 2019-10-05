@@ -24,11 +24,12 @@ staging:
   environment:
     name: staging
     url: http://$CI_PROJECT_PATH_SLUG-stg.$KUBE_INGRESS_BASE_DOMAIN
-    HELM_UPGRADE_EXTRA_ARGS: --values ./chart-values/staging.yaml
   only:
     refs:
       - develop
     kubernetes: active
+  variables:
+    HELM_UPGRADE_EXTRA_ARGS: --values ./chart-values/staging.yaml
 
 
 .production: &production_template
@@ -47,9 +48,10 @@ staging:
   environment:
     name: production
     url: http://$CI_PROJECT_PATH_SLUG.$KUBE_INGRESS_BASE_DOMAIN
-    HELM_UPGRADE_EXTRA_ARGS: --values ./chart-values/production.yaml
   artifacts:
     paths: [environment_url.txt]
+  variables:
+    HELM_UPGRADE_EXTRA_ARGS: --values ./chart-values/production.yaml
 
 production:
   <<: *production_template
