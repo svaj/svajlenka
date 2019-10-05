@@ -81,20 +81,20 @@ ingress:
     certmanager.k8s.io/cluster-issuer: letsencrypt-prod
     kubernetes.io/ingress.class: nginx
     kubernetes.io/tls-acme: "true"
-    external-dns.alpha.kubernetes.io/hostname: svajlenka.ineedto.party
+    external-dns.alpha.kubernetes.io/hostname: svajlenka-stg.ineedto.party
     external-dns.alpha.kubernetes.io/ttl: "120" #optional
   ## The list of hostnames to be covered with this ingress record.
   ## Most likely this will be just one host, but in the event more hosts are needed, this is an array
   hosts:
-  - name: svajlenka.ineedto.party
+  - name: svajlenka-stg.ineedto.party
     path: /
 
   ## The tls configuration for the ingress
   ## see: https://kubernetes.io/docs/concepts/services-networking/ingress/#tls
   tls:
   - hosts:
-      - svajlenka.ineedto.party
-    secretName: svajlenka.local-tls
+      - svajlenka-stg.ineedto.party
+    secretName: svajlenka-stg.local-tls
 
   secrets:
   ## If you're providing your own certificates, please use this to add the certificates as secrets

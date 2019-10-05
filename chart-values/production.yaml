@@ -88,13 +88,19 @@ ingress:
   hosts:
   - name: svajlenka.ineedto.party
     path: /
+  - name: svajlenka.com
+    path: /
+  - name: www.svajlenka.com
+    path: /
 
   ## The tls configuration for the ingress
   ## see: https://kubernetes.io/docs/concepts/services-networking/ingress/#tls
   tls:
   - hosts:
       - svajlenka.ineedto.party
-    secretName: svajlenka.local-tls
+      - svajlenka.com
+      - www.svajlenka.com
+    secretName: svajlenka-prod.local-tls
 
   secrets:
   ## If you're providing your own certificates, please use this to add the certificates as secrets
