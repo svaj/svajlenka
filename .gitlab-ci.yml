@@ -37,7 +37,7 @@ staging:
       - develop
     kubernetes: active
   variables:
-    HELM_UPGRADE_EXTRA_ARGS: --values ./chart-values/staging.yaml
+    HELM_UPGRADE_EXTRA_ARGS: --values ./chart-values/_common.yaml --values ./chart-values/staging.yaml
 
 
 .production: &production_template
@@ -59,7 +59,7 @@ staging:
   artifacts:
     paths: [environment_url.txt]
   variables:
-    HELM_UPGRADE_EXTRA_ARGS: --values ./chart-values/production.yaml
+    HELM_UPGRADE_EXTRA_ARGS: --values ./chart-values/_common.yaml --values ./chart-values/production.yaml
 
 production:
   <<: *production_template
