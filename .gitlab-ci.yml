@@ -71,3 +71,15 @@ production:
     variables:
       - $INCREMENTAL_ROLLOUT_ENABLED
       - $INCREMENTAL_ROLLOUT_MODE
+
+
+production_manual:
+  <<: *production_template
+  when: manual
+  allow_failure: false
+  only:
+    refs:
+      - 'v-*'
+    kubernetes: active
+    variables:
+      - $STAGING_ENABLED
