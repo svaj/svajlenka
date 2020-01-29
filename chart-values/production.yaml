@@ -11,3 +11,4 @@ service:
     - svajlenka.ineedto.party
     - svajlenka.com
     - www.svajlenka.com
+  commonName: svajlenka.com
