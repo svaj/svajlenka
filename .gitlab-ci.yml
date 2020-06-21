@@ -22,25 +22,25 @@ build:
     echo $CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG
     /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG
 
-staging:
-  extends: .auto-deploy
-  stage: staging
-  script:
-    - auto-deploy check_kube_domain
-    - auto-deploy download_chart
-    - auto-deploy ensure_namespace
-    - auto-deploy initialize_tiller
-    - auto-deploy create_secret
-    - auto-deploy deploy
-  environment:
-    name: staging
-    url: http://$CI_PROJECT_PATH_SLUG-stg.$KUBE_INGRESS_BASE_DOMAIN
-  only:
-    refs:
-      - develop
-    kubernetes: active
-  variables:
-    HELM_UPGRADE_EXTRA_ARGS: --values ./chart-values/_common.yaml --values ./chart-values/staging.yaml
+#staging:
+#  extends: .auto-deploy
+#  stage: staging
+#  script:
+#    - auto-deploy check_kube_domain
+#    - auto-deploy download_chart
+#    - auto-deploy ensure_namespace
+#    - auto-deploy initialize_tiller
+#    - auto-deploy create_secret
+#    - auto-deploy deploy
+#  environment:
+#    name: staging
+#    url: http://$CI_PROJECT_PATH_SLUG-stg.$KUBE_INGRESS_BASE_DOMAIN
+#  only:
+#    refs:
+#      - develop
+#    kubernetes: active
+#  variables:
+#    HELM_UPGRADE_EXTRA_ARGS: --values ./chart-values/_common.yaml --values ./chart-values/staging.yaml
 
 
 .production: &production_template
