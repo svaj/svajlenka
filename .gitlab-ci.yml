@@ -22,66 +22,76 @@ build:
     echo $CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG
     /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG
 
-#staging:
-#  extends: .auto-deploy
-#  stage: staging
-#  script:
-#    - auto-deploy check_kube_domain
-#    - auto-deploy download_chart
-#    - auto-deploy ensure_namespace
-#    - auto-deploy initialize_tiller
-#    - auto-deploy create_secret
-#    - auto-deploy deploy
-#  environment:
-#    name: staging
-#    url: http://$CI_PROJECT_PATH_SLUG-stg.$KUBE_INGRESS_BASE_DOMAIN
-#  only:
-#    refs:
-#      - develop
-#    kubernetes: active
-#  variables:
-#    HELM_UPGRADE_EXTRA_ARGS: --values ./chart-values/_common.yaml --values ./gitlab/auto-deploy-values.yam --values ./chart-values/staging.yaml
+staging:
+  extends: .auto-deploy
+  stage: staging
+  script:
+    - auto-deploy check_kube_domain
+    - auto-deploy download_chart
+    - auto-deploy ensure_namespace
+    - auto-deploy initialize_tiller
+    - auto-deploy create_secret
+    - auto-deploy deploy
+  environment:
+    name: staging
+    url: http://$CI_PROJECT_PATH_SLUG-stg.$KUBE_INGRESS_BASE_DOMAIN
+  rules:
+    - if: '$CI_KUBERNETES_ACTIVE == null || $CI_KUBERNETES_ACTIVE == ""'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "develop"'
+      when: never
+    - if: '$STAGING_ENABLED'
+  variables:
+    HELM_UPGRADE_EXTRA_ARGS: --values ./chart-values/_common.yaml --values ./gitlab/auto-deploy-values.yaml --values ./chart-values/staging.yaml
 
-#.production: &production_template
-#  extends: .auto-deploy
-#  stage: production
-#  script:
-#    - auto-deploy check_kube_domain
-#    - auto-deploy download_chart
-#    - auto-deploy ensure_namespace
-#    - auto-deploy initialize_tiller
-#    - auto-deploy create_secret
-#    - auto-deploy deploy
-#    - auto-deploy delete canary
-#    - auto-deploy delete rollout
-#    - auto-deploy persist_environment_url
-#  environment:
-#    name: production
-#    url: http://#$CI_PROJECT_PATH_SLUG.$KUBE_INGRESS_BASE_DOMAIN
-#  artifacts:
-#    paths: [environment_url.txt]
-#  variables:
-#    HELM_UPGRADE_EXTRA_ARGS: --values ./chart-values/_common.yaml --values ./gitlab/auto-deploy-values.yaml --values ./chart-values/production.yaml
+.production: &production_template
+  extends: .auto-deploy
+  stage: production
+  script:
+    - auto-deploy check_kube_domain
+    - auto-deploy download_chart
+    - auto-deploy ensure_namespace
+    - auto-deploy initialize_tiller
+    - auto-deploy create_secret
+    - auto-deploy deploy
+    - auto-deploy delete canary
+    - auto-deploy delete rollout
+    - auto-deploy persist_environment_url
+  environment:
+    name: production
+    url: http://#$CI_PROJECT_PATH_SLUG.$KUBE_INGRESS_BASE_DOMAIN
+  artifacts:
+    paths: [environment_url.txt]
+  variables:
+    HELM_UPGRADE_EXTRA_ARGS: --values ./chart-values/_common.yaml --values ./gitlab/auto-deploy-values.yaml --values ./chart-values/production.yaml
 
 production:
   <<: *production_template
-  only:
-    refs:
-      - master
-    kubernetes: active
-  except:
-    variables:
-      - $INCREMENTAL_ROLLOUT_ENABLED
-      - $INCREMENTAL_ROLLOUT_MODE
+  rules:
+    - if: '$CI_KUBERNETES_ACTIVE == null || $CI_KUBERNETES_ACTIVE == ""'
+      when: never
+    - if: '$STAGING_ENABLED'
+      when: never
+    - if: '$CANARY_ENABLED'
+      when: never
+    - if: '$INCREMENTAL_ROLLOUT_ENABLED'
+      when: never
+    - if: '$INCREMENTAL_ROLLOUT_MODE'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "master"'
 
 
 production_manual:
   <<: *production_template
-  when: manual
   allow_failure: false
-  only:
-    refs:
-      - 'v-*'
-    kubernetes: active
-    variables:
-      - $STAGING_ENABLED
+  rules:
+    - if: '$CI_KUBERNETES_ACTIVE == null || $CI_KUBERNETES_ACTIVE == ""'
+      when: never
+    - if: '$INCREMENTAL_ROLLOUT_ENABLED'
+      when: never
+    - if: '$INCREMENTAL_ROLLOUT_MODE'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "master" && $STAGING_ENABLED'
+      when: manual
+    - if: '$CI_COMMIT_BRANCH == "master" && $CANARY_ENABLED'
+      when: manual
