@@ -1,6 +1,9 @@
 include:
   - template: Auto-DevOps.gitlab-ci.yml
 
+variables:
+  CODE_QUALITY_DISABLED: "true"
+
 # build with kaniko (no root docker)
 build:
   stage: build
@@ -32,13 +35,14 @@ staging:
   environment:
     name: staging
     url: http://$CI_PROJECT_PATH_SLUG-stg.$KUBE_INGRESS_BASE_DOMAIN
-  only:
-    refs:
-      - develop
-    kubernetes: active
+  rules:
+    - if: '$CI_KUBERNETES_ACTIVE == null || $CI_KUBERNETES_ACTIVE == ""'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "develop"'
+      when: never
+    - if: '$STAGING_ENABLED'
   variables:
-    HELM_UPGRADE_EXTRA_ARGS: --values ./chart-values/_common.yaml --values ./chart-values/staging.yaml
-
+    HELM_UPGRADE_EXTRA_ARGS: --values ./chart-values/_common.yaml --values ./gitlab/auto-deploy-values.yaml --values ./chart-values/staging.yaml
 
 .production: &production_template
   extends: .auto-deploy
@@ -55,19 +59,39 @@ staging:
     - auto-deploy persist_environment_url
   environment:
     name: production
-    url: http://$CI_PROJECT_PATH_SLUG.$KUBE_INGRESS_BASE_DOMAIN
+    url: http://#$CI_PROJECT_PATH_SLUG.$KUBE_INGRESS_BASE_DOMAIN
   artifacts:
     paths: [environment_url.txt]
   variables:
-    HELM_UPGRADE_EXTRA_ARGS: --values ./chart-values/_common.yaml --values ./chart-values/production.yaml
+    HELM_UPGRADE_EXTRA_ARGS: --values ./chart-values/_common.yaml --values ./gitlab/auto-deploy-values.yaml --values ./chart-values/production.yaml
 
 production:
   <<: *production_template
-  only:
-    refs:
-      - master
-    kubernetes: active
-  except:
-    variables:
-      - $INCREMENTAL_ROLLOUT_ENABLED
-      - $INCREMENTAL_ROLLOUT_MODE
+  rules:
+    - if: '$CI_KUBERNETES_ACTIVE == null || $CI_KUBERNETES_ACTIVE == ""'
+      when: never
+    - if: '$STAGING_ENABLED'
+      when: never
+    - if: '$CANARY_ENABLED'
+      when: never
+    - if: '$INCREMENTAL_ROLLOUT_ENABLED'
+      when: never
+    - if: '$INCREMENTAL_ROLLOUT_MODE'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "master"'
+
+
+production_manual:
+  <<: *production_template
+  allow_failure: false
+  rules:
+    - if: '$CI_KUBERNETES_ACTIVE == null || $CI_KUBERNETES_ACTIVE == ""'
+      when: never
+    - if: '$INCREMENTAL_ROLLOUT_ENABLED'
+      when: never
+    - if: '$INCREMENTAL_ROLLOUT_MODE'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "master" && $STAGING_ENABLED'
+      when: manual
+    - if: '$CI_COMMIT_BRANCH == "master" && $CANARY_ENABLED'
+      when: manual
