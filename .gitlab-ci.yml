@@ -59,7 +59,7 @@ staging:
     - auto-deploy persist_environment_url
   environment:
     name: production
-    url: http://#$CI_PROJECT_PATH_SLUG.$KUBE_INGRESS_BASE_DOMAIN
+    url: http://$CI_PROJECT_PATH_SLUG.$KUBE_INGRESS_BASE_DOMAIN
   artifacts:
     paths: [environment_url.txt]
   variables:
