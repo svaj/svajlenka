@@ -40,29 +40,28 @@ build:
 #      - develop
 #    kubernetes: active
 #  variables:
-#    HELM_UPGRADE_EXTRA_ARGS: --values ./chart-values/_common.yaml --values ./chart-values/staging.yaml
+#    HELM_UPGRADE_EXTRA_ARGS: --values ./chart-values/_common.yaml --values ./gitlab/auto-deploy-values.yam --values ./chart-values/staging.yaml
 
-
-.production: &production_template
-  extends: .auto-deploy
-  stage: production
-  script:
-    - auto-deploy check_kube_domain
-    - auto-deploy download_chart
-    - auto-deploy ensure_namespace
-    - auto-deploy initialize_tiller
-    - auto-deploy create_secret
-    - auto-deploy deploy
-    - auto-deploy delete canary
-    - auto-deploy delete rollout
-    - auto-deploy persist_environment_url
-  environment:
-    name: production
-    url: http://$CI_PROJECT_PATH_SLUG.$KUBE_INGRESS_BASE_DOMAIN
-  artifacts:
-    paths: [environment_url.txt]
-  variables:
-    HELM_UPGRADE_EXTRA_ARGS: --values ./chart-values/_common.yaml --values ./chart-values/production.yaml
+#.production: &production_template
+#  extends: .auto-deploy
+#  stage: production
+#  script:
+#    - auto-deploy check_kube_domain
+#    - auto-deploy download_chart
+#    - auto-deploy ensure_namespace
+#    - auto-deploy initialize_tiller
+#    - auto-deploy create_secret
+#    - auto-deploy deploy
+#    - auto-deploy delete canary
+#    - auto-deploy delete rollout
+#    - auto-deploy persist_environment_url
+#  environment:
+#    name: production
+#    url: http://#$CI_PROJECT_PATH_SLUG.$KUBE_INGRESS_BASE_DOMAIN
+#  artifacts:
+#    paths: [environment_url.txt]
+#  variables:
+#    HELM_UPGRADE_EXTRA_ARGS: --values ./chart-values/_common.yaml --values ./gitlab/auto-deploy-values.yaml --values ./chart-values/production.yaml
 
 production:
   <<: *production_template
