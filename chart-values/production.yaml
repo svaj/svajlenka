@@ -8,7 +8,7 @@ ingress:
 
 service:
   additionalHosts:
-    - svajlenka.ineedto.party
+    - svajlenka.lame.party
     - svajlenka.com
     - www.svajlenka.com
   commonName: svajlenka.com
