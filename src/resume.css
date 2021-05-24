@@ -1,79 +1,218 @@
+:root {
+  --smaller-space: 0.25rem;
+  --small-space: 0.5rem;
+  --medium-space: 0.75rem;
+	--large-space: 1rem;
+	--light-gray: #aaa;
+	--medium-gray: #888;
+	--dark-gray: #444;
+}
+html {
+	font-size: 10px;
+}
 body {
 	font-family:  verdana, tahoma, arial;
+	background: #FFF;
+	color: rgb(85, 80, 80);
+	max-width: 85rem;
+	margin: var(--small-space) auto;
+}
+address {
+	text-decoration: none;
+	font-weight: normal;
+	font-size: normal;
+	font-style: normal;
 }
 
-.siteContainer {
-	width: 900px;
-	margin: 0pt auto;
-	display: block;
+address dl {
+	list-style: none;
+	margin: var(--small-space);
+	padding-left: 0;
+}
+address dt {
+	font-weight: bold;
+	font-size: 1.2rem;
 }
 
-.header h1 {
-	font-size: 20px;
-	margin-top:5px;
-	margin-bottom:0px;
+address dd {
+	max-width: 10rem;
+	margin-left: var(--small-space);
+}
+address ul, address li {
+	list-style: none;
+	padding-left: 0;
+	margin: 0;
 }
 
-.contact {
-	list-style-type: none;
-	margin-top:5px;
-	margin-bottom:5px;
+
+header h1 {
+	font-size: 2rem;
+	margin:var(--small-space) auto;
 }
 
-.codeQuote {
+
+blockquote {
 	font-style:italic;
 	display:block;
 	text-align:center;
-	margin-top:5px;
-	margin-bottom:5px;
+	margin:var(--smaller-space) auto;
 }
 
-.siteContent {
-	margin-top:10px;
+main {
+	margin-top:var(--medium-space);
+	padding-top:var(--medium-space);
+	border-top: 1px solid var(--dark-gray);
 }
 
-.section {
-	font-size:12px;
-	margin-bottom:10px;
-	clear:both;
+main section {
+	margin-bottom:var(--medium-space);
 }
-.section p {
-	margin-left:50px;
-	margin-top:2px;
-	margin-bottom:5px;
+main section p {
+	margin-left: var(--large-space);
+	margin-top: var(--medium-space);
+	margin-bottom: var(--small-space);
 }
-.subsection {
-	width:50%;
-	float:left;
+section.sub {
+	max-width:50%;
+	border-left: 1px dotted var(--medium-gray);
+	padding-left: var(--large-space)
 }
-.sectionHeader {
-	font-size: 16px;
-	display: block;
+.top section.sub {
+	max-width: 30%;
+}
+section.sub:first-child {
+	border-left: none;
+}
+section.compact  {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	justify-items: center;
+	align-content: space-between;
+}
+section.compact > section {
+	flex: 1 0 min-content;
+}
+section.compact > address {
+	flex: 1 0 min-content;
+}
+
+header {
+	font-size: 1.5rem;
 	font-weight:bold;
+	margin-bottom: var(--small-space);
 }
-
-.subHeader {
-	font-size: 15px;
+aside {
 	display: inline-block;
-	margin-left:10px;
+}
+
+.sub > header {
+	font-size: 1.2rem;
+	margin-bottom: var(--small-space);
+	margin-left:var(--small-space);
 }
 
 
-.timeframe {
-	font-size: 12px;
+time {
+	font-size: .9rem;
+
 }
-.timeframeTotal {
-	font-size: 12px;
-	display: inline-block;
-	margin-left:10px;
+time.total::before {
+	content: "➤ "
 }
-.timeframe.centered {
-	display:block;
-	margin:0 auto;
-	width:100%;
-	text-align:center;
+time.total {
+	font-size: normal;
+	margin-left:var(--smaller-space)
+}
+time.total::after {
+	content: " at "
 }
 
+.roles {
+	display: flex;
+	flex-wrap: nowrap;
+  justify-content: flex-end;
+	flex-flow: row;
+	font-size: 1rem;
+	margin: 0;
+}
+.roles dd {
+	flex: 0 1 auto;
+	margin-left: 0;
+}
+.roles dt {
+	flex: 0 1 auto;
+	margin-left: 0;
+}
+.roles dd::after {
+	content:", ";
+}
+.roles dd:last-child:after {
+	content: ""
+}
+.roles dd {
+	padding: 0 var(--small-space) ;
+	list-style: none;
+}
+.role, .roles dd  {
+	font-weight: bold;
+}
+
+.role::before, .roles dd::before {
+	font-weight: normal;
+	content:" as "
+}
+
+main > section {
+	border-bottom: 1px solid var(--dark-gray);
+	margin-bottom: var(--small-space);
+}
+main > section:last-of-type {
+	border-bottom:none;
+	margin-bottom:0;
+}
+.experience > section {
+	margin-bottom: var(--small-space);
+	padding-bottom: var(--small-space);
+	border-bottom: 1px solid var(--dark-gray);
+	display: flex;
+	flex-direction: row;
+	justify-content: stretch;
+	justify-items: flex-end;
+	align-items: stretch;
+	flex-wrap: wrap;
+}
+.experience section:last-of-type{
+	margin-bottom: auto;
+	border: none;
+}
+.experience > section header {
+	margin: 0;
+	font-weight:normal;
+	font-size: 1rem;
+	flex: 1 0 auto;
+}
+.experience > section header a {
+	font-size: 1.2rem;
+	font-weight: bold;
+}
+.experience summary {
+	flex: 2 2 auto;
+	font-size: 1rem;
+	/* padding-top: var(--medium-space); */
+	/* border-bottom: 1px dashed var(--light-gray); */
+}
+.experience article {
+	flex: 4 0 auto;
+	align-self: stretch;
+	width: 100%;
+	margin-left: var(--large-space);
+}
+
+
+.nRoles > article {
+	border-top: 1px dashed var(--light-gray);
+}
 a:link { 
 	color: #333333;
 }
@@ -90,17 +229,25 @@ a:active {
 
 @page {
 	size: auto;
-	margin: 10mm;
+	margin: 5mm auto;
 }
 
 @media print {
+	:root {
+		--smaller-space: 1pt;
+  	--small-space: 2pt;
+  	--medium-space: 4pt;
+		--large-space: 8pt;
+	}
 	html,body {
+		font-size: 6pt;
 		height: 100%;
-		overlfow:hidden;
+		width: 100%;
+		overflow:wrap;
 		margin:0 !important;
 		padding: 0 !important;
 	}
-	.header h1, .siteContent {
+	header h1, main, body> section {
 		margin-top:0 !important;
 	}
 
