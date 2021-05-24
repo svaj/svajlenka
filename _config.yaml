@@ -1,8 +1,0 @@
-url: svaj.github.io
-baseurl: /svajlenka
-source: src
-ignore_theme_config: true
-theme_file: resume.css
-include: 
-  - "*.css"
-  - "*.txt"
