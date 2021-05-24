@@ -1,0 +1,5 @@
+source: src
+ignore_theme_config: true
+include: 
+  - "*.css"
+  - "*.txt"
