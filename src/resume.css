@@ -74,7 +74,7 @@ main section p {
 section.sub {
   max-width: 50%;
   border-left: 1px dotted var(--medium-gray);
-  padding-left: var(--large-space);
+  padding: 0 var(--medium-space); 
 }
 .top section.sub {
   max-width: 30%;
@@ -108,11 +108,14 @@ aside {
 .sub > header {
   font-size: 1.2rem;
   margin-bottom: var(--small-space);
-  margin-left: var(--small-space);
+	display: inline-block;
 }
 
 time {
   font-size: 0.9rem;
+}
+.sub time {
+	display: inline-block;
 }
 time.total::before {
   content: "➤ ";
