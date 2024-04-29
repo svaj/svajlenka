@@ -31,7 +31,7 @@ address dl {
 }
 address dt {
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 
 address dd {
@@ -46,7 +46,7 @@ address li {
 }
 
 header h1 {
-  font-size: 2rem;
+  font-size: 1.5rem;
   margin: var(--small-space) auto;
 }
 
@@ -97,7 +97,7 @@ section.compact > address {
 }
 
 header {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: bold;
   margin-bottom: var(--small-space);
 }
@@ -106,7 +106,7 @@ aside {
 }
 
 .sub > header {
-  font-size: 1.2rem;
+  font-size: 1.0rem;
   margin-bottom: var(--small-space);
 	display: inline-block;
 }
@@ -175,8 +175,8 @@ main > section:last-of-type {
 }
 .experience > section {
   margin-bottom: var(--small-space);
-  padding-bottom: var(--small-space);
-  border-bottom: 1px solid var(--dark-gray);
+  /* padding-bottom: var(--small-space); */
+  border-bottom: 1px solid var(--dark-gray); 
   display: flex;
   flex-direction: row;
   justify-content: stretch;
@@ -195,7 +195,7 @@ main > section:last-of-type {
   flex: 1 0 auto;
 }
 .experience > section header a {
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: bold;
 }
 .experience summary {
