@@ -162,7 +162,7 @@ time.total::after {
 .role::before,
 .roles dd::before {
   font-weight: normal;
-  content: " as ";
+  content: " ";
 }
 
 main > section {
@@ -209,6 +209,12 @@ main > section:last-of-type {
   align-self: stretch;
   width: 100%;
   margin-left: var(--large-space);
+}
+.experience article > ul{
+  margin-top:0.25rem;
+}
+.experience article > ul> li{
+  margin-top:0.25rem;
 }
 
 .nRoles > article {
