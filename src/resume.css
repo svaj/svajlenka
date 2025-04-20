@@ -261,3 +261,23 @@ a:active {
     margin-top: 0 !important;
   }
 }
+
+.stack {
+  font-weight: bold;
+  list-style: none;
+}
+.stack:before {
+  text-emphasis: bold;
+  content: "Stack:"
+}
+.stack li:after {
+  content: ","
+}
+.stack li {
+  font-weight: normal;
+  display: inline;
+}
+
+li:last-child:after {
+  content: "";
+}
